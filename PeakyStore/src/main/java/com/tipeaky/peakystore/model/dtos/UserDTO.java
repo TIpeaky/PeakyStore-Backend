@@ -21,8 +21,9 @@ public class UserDTO {
     private String cpf;
     private String name;
     private String email;
+    private GenderEnum gender;
     //private Longblob avatar; imagem do usuário
-    private List<GenderDTO> genderDTOList;
+    private List<GenderDTO> genderList;
     private LocalDate birthDate;
     private Boolean notification;
     private List<AddressDTO> addressDTOList;

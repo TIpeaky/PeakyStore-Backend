@@ -2,6 +2,7 @@ package com.tipeaky.peakystore.services;
 
 import com.tipeaky.peakystore.exceptions.DuplicatedEntityException;
 import com.tipeaky.peakystore.exceptions.EntityNotFoundException;
+import com.tipeaky.peakystore.exceptions.MethodNotAllowedException;
 import com.tipeaky.peakystore.model.dtos.CardDTO;
 import com.tipeaky.peakystore.exceptions.UnauthorizedException;
 import com.tipeaky.peakystore.model.dtos.NotificationDTO;
@@ -22,6 +23,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -84,11 +87,11 @@ public class UserService {
         return users.stream().map(user -> mapper.map(user, UserDTO.class)).toList();
     }
     @Transactional
-    public UserDTO saveEmployee(UserForm userForm) {
-        if(userRepository.findByCpf(userForm.getCpf()).isPresent())
+    public UserDTO saveEmployee(EmployeeForm employeeForm) {
+        if(userRepository.findByCpf(employeeForm.getCpf()).isPresent())
             throw new DuplicatedEntityException("Funcionario com esse CPF já existe no sistema");
 
-        User user = mapper.map(userForm, User.class);
+        User user = mapper.map(employeeForm, User.class);
 
         user.setRoles(new Role(null, "Employee"));
 
@@ -168,5 +171,68 @@ public class UserService {
         Optional<Address> optionalAddress = addressRepository.findById(addressId);
         if (optionalAddress.isEmpty()) throw new EntityNotFoundException("Endereço não encontrado");
         return mapper.map(optionalAddress.get(), AddressDTO.class);
+    }
+
+    public void deleteEmployee(UUID userId) {
+        if (!userRepository.findById(userId).isPresent()) throw new EntityNotFoundException("Funcionário não encontrado");
+
+        User employee = userRepository.findById(userId).get();
+
+        Role role = employee.getRoles().get(0);
+
+        if (!role.getAuthority().equals("Employee")) {
+            throw new MethodNotAllowedException("Usuário não é um funcionário");
+        }
+
+        userRepository.delete(employee);
+    }
+
+    public void updateEmployee(EmployeeForm user, UUID userId) {
+
+        if (!userRepository.findById(userId).isPresent()) {
+            throw new EntityNotFoundException("Funcionário nâo encontrado");
+        }
+
+        User lastData = userRepository.findById(userId).get();
+
+        Role role = lastData.getRoles().get(0);
+
+        if (!role.getAuthority().equalsIgnoreCase("Employee")) {
+            throw new MethodNotAllowedException("Usuário não é um funcionário");
+        }
+
+        if (!lastData.getCpf().equals(user.getCpf())) {
+            throw new MethodNotAllowedException("Cpf não pode ser alterado");
+        }
+
+        User actualData = mapper.map(user, User.class);
+
+        actualData.setId(lastData.getId());
+
+        actualData.setRoles(role);
+
+        userRepository.save(actualData);
+    }
+
+    public List<UserDTO> getAllEmployees() {
+
+        List<User> users = userRepository.findAll();
+        List<User> employees = new ArrayList<>();
+
+        if(users.isEmpty()){
+            throw new EntityNotFoundException("Não há usuários cadastrados");
+        }
+
+        for (User user: users) {
+            if (user.getRoles().get(0).getAuthority().equalsIgnoreCase("Employee")) {
+                employees.add(user);
+            }
+        }
+
+        if (employees.isEmpty()) {
+            throw new EntityNotFoundException("Não há funcionários cadastrados");
+        }
+
+        return employees.stream().map(employee -> mapper.map(employee, UserDTO.class)).toList();
     }
 }

@@ -8,11 +8,7 @@ import com.tipeaky.peakystore.model.dtos.CardDTO;
 import com.tipeaky.peakystore.model.dtos.NotificationDTO;
 import com.tipeaky.peakystore.model.dtos.UserDTO;
 import com.tipeaky.peakystore.model.entities.User;
-import com.tipeaky.peakystore.model.forms.NewPasswordForm;
-import com.tipeaky.peakystore.model.forms.AddressRegisterForm;
-import com.tipeaky.peakystore.model.forms.CardForm;
-import com.tipeaky.peakystore.model.forms.NotificationForm;
-import com.tipeaky.peakystore.model.forms.UserForm;
+import com.tipeaky.peakystore.model.forms.*;
 import com.tipeaky.peakystore.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,8 +72,27 @@ public class UserController {
     }
 
     @PostMapping("/employee")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<UserDTO> saveEmployee(@RequestBody @Valid UserForm userForm){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveEmployee(userForm));
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<UserDTO> saveEmployee(@RequestBody @Valid EmployeeForm employeeForm){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveEmployee(employeeForm));
+    }
+
+    @DeleteMapping("/employee/{userId}")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteEmployee(@PathVariable UUID userId) {
+        userService.deleteEmployee(userId);
+    }
+
+    @PutMapping("/employee/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateEmployee(@RequestBody @Valid EmployeeForm employeeForm, @PathVariable UUID userId) {
+        userService.updateEmployee(employeeForm, userId);
+    }
+
+    @GetMapping("/employee")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> getAllEmployees() {
+        return userService.getAllEmployees();
     }
 }

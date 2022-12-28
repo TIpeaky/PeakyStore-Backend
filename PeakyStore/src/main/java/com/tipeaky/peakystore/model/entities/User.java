@@ -40,6 +40,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    private GenderEnum gender;
+
 //    @ElementCollection
 //    @CollectionTable(name = "user_gender", joinColumns = @JoinColumn(name = "user_id"))
 //    @Column(name = "gender")
@@ -61,7 +63,7 @@ public class User implements UserDetails {
         this.roles.add(role);
     }
 
-    public void setGender(Gender gender) {
+    public void setGenderList(Gender gender) {
         this.genderList.add(gender);
     }
 
