@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum SizeEnum {
-    XS("XS", "XS Size"),
-    S("S", "S Size"),
-    M("M", "M Size"),
-    L("L", "L Size"),
-    XL("XL", "XL Size"),
-    XXL("XXL", "XXL Size");
+    XS("XS", "XS"),
+    S("S", "S"),
+    M("M", "M"),
+    L("L", "L"),
+    XL("XL", "XL"),
+    XXL("XXL", "XXL");
 
     private String key;
     private String description;
