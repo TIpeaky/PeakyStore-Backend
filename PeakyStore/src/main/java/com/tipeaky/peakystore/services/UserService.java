@@ -211,6 +211,9 @@ public class UserService {
 
         actualData.setRoles(role);
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        actualData.setPassword(encoder.encode(actualData.getPassword()));
+
         userRepository.save(actualData);
     }
 
