@@ -43,7 +43,7 @@ public class Product {
     @Column(nullable = false)
     private Integer stockQuantity;
     @Column(nullable = false)
-    private String productBrand;
+    private BrandEnum productBrand;
     @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
     @Column(nullable = false)
@@ -73,7 +73,7 @@ public class Product {
 
     public String generateSku() {
         this.sku = this.category.getKey() + this.section.getKey() +
-                extractFirstTwo(this.productBrand) + this.collection.getKey() +
+                this.productBrand.getKey() + this.collection.getKey() +
                 this.fabricMaterial.getKey() + extractLastTwo(this.releaseYear) +
                 this.color.getKey() + this.size.getKey();
         return sku;
@@ -86,11 +86,6 @@ public class Product {
         strNumber = strNumber.substring(strNumber.length()-2);
 
         return Integer.parseInt(strNumber);
-    }
-
-    private String extractFirstTwo(String str) {
-        if(str.length() <3) return str;
-        return str.substring(0, 2).toUpperCase();
     }
 
     public String setSku() {

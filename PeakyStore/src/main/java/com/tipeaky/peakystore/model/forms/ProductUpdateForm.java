@@ -34,7 +34,7 @@ public class ProductUpdateForm {
     @Min(0)
     private Integer stockQuantity;
     @NotNull
-    private String productBrand;
+    private BrandEnum productBrand;
     @NotNull
     private ColorEnum color;
     @NotNull

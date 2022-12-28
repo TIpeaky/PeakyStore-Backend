@@ -21,8 +21,8 @@ public class ProductRegisterForm {
     private BigDecimal salePrice;
     @Min(0)
     private Integer stockQuantity;
-    @NotBlank
-    private String productBrand;
+    @NotNull
+    private BrandEnum productBrand;
     @NotNull
     private ColorEnum color;
     @NotNull
