@@ -1,16 +1,10 @@
 package com.tipeaky.peakystore.model.forms;
 
-import com.tipeaky.peakystore.model.enums.CategoryEnum;
-import com.tipeaky.peakystore.model.enums.ColorEnum;
-import com.tipeaky.peakystore.model.enums.SectionEnum;
-import com.tipeaky.peakystore.model.enums.SizeEnum;
+import com.tipeaky.peakystore.model.enums.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Getter
@@ -37,5 +31,10 @@ public class ProductRegisterForm {
     private CategoryEnum category;
     @NotNull
     private SectionEnum section;
-
+    @NotNull @Min(1900) @Max(2099)
+    private Integer releaseYear;
+    @NotNull
+    private CollectionEnum collection;
+    @NotNull
+    private FabricMaterialEnum fabricMaterial;
 }
