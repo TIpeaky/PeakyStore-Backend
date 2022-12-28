@@ -1,7 +1,10 @@
 package com.tipeaky.peakystore.model.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tipeaky.peakystore.model.enums.*;
+import com.tipeaky.peakystore.model.enums.CategoryEnum;
+import com.tipeaky.peakystore.model.enums.ColorEnum;
+import com.tipeaky.peakystore.model.enums.SectionEnum;
+import com.tipeaky.peakystore.model.enums.SizeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +35,5 @@ public class ProductDTO {
     private SizeEnum size;
     private CategoryEnum category;
     private SectionEnum section;
-    private Integer releaseYear;
-    private CollectionEnum collection;
-    private FabricMaterialEnum fabricMaterial;
 
 }
