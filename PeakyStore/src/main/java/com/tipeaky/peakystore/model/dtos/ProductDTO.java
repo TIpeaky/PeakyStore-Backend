@@ -1,10 +1,7 @@
 package com.tipeaky.peakystore.model.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.tipeaky.peakystore.model.enums.CategoryEnum;
-import com.tipeaky.peakystore.model.enums.ColorEnum;
-import com.tipeaky.peakystore.model.enums.SectionEnum;
-import com.tipeaky.peakystore.model.enums.SizeEnum;
+import com.tipeaky.peakystore.model.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,7 @@ public class ProductDTO {
     private BigDecimal purchasePrice;
     private BigDecimal salePrice;
     private Integer stockQuantity;
-    private String productBrand;
+    private BrandEnum productBrand;
     private LocalDateTime lastUpdateDate;
     private ColorEnum color;
     private SizeEnum size;

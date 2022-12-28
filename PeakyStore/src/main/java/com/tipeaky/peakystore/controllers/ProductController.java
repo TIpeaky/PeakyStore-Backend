@@ -1,11 +1,15 @@
 package com.tipeaky.peakystore.controllers;
 
 import com.tipeaky.peakystore.exceptions.NullObjectException;
+import com.tipeaky.peakystore.model.dtos.ListEnumsDTO;
 import com.tipeaky.peakystore.model.dtos.ProductDTO;
+import com.tipeaky.peakystore.model.enums.*;
 import com.tipeaky.peakystore.model.forms.ProductUpdateForm;
 import com.tipeaky.peakystore.model.forms.ProductRegisterForm;
 import com.tipeaky.peakystore.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +36,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
+    public ResponseEntity<Page<ProductDTO>> getAllProducts(Pageable pageable, ColorEnum color, BrandEnum productBrand, SizeEnum size, CategoryEnum category, SectionEnum section) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts(pageable, color, productBrand, size, category, section));
     }
 
     @DeleteMapping("/{id}")
@@ -51,5 +55,10 @@ public class ProductController {
 
         form.setId(id);
         return ResponseEntity.ok().body(productService.update(form));
+    }
+
+    @GetMapping("/teste")
+    public ResponseEntity<ListEnumsDTO> getAllEnums() {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllEnums());
     }
 }
