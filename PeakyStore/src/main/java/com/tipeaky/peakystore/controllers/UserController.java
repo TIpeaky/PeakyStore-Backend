@@ -2,11 +2,8 @@ package com.tipeaky.peakystore.controllers;
 
 import com.tipeaky.peakystore.config.security.TokenService;
 import com.tipeaky.peakystore.exceptions.NullObjectException;
-import com.tipeaky.peakystore.model.dtos.AddressDTO;
+import com.tipeaky.peakystore.model.dtos.*;
 import com.tipeaky.peakystore.exceptions.NullObjectException;
-import com.tipeaky.peakystore.model.dtos.CardDTO;
-import com.tipeaky.peakystore.model.dtos.NotificationDTO;
-import com.tipeaky.peakystore.model.dtos.UserDTO;
 import com.tipeaky.peakystore.model.entities.User;
 import com.tipeaky.peakystore.model.forms.*;
 import com.tipeaky.peakystore.services.UserService;
@@ -92,7 +89,7 @@ public class UserController {
 
     @GetMapping("/employee")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return userService.getAllEmployees();
     }
 }

@@ -3,15 +3,13 @@ package com.tipeaky.peakystore.services;
 import com.tipeaky.peakystore.exceptions.DuplicatedEntityException;
 import com.tipeaky.peakystore.exceptions.EntityNotFoundException;
 import com.tipeaky.peakystore.exceptions.MethodNotAllowedException;
-import com.tipeaky.peakystore.model.dtos.CardDTO;
+import com.tipeaky.peakystore.model.dtos.*;
 import com.tipeaky.peakystore.exceptions.UnauthorizedException;
-import com.tipeaky.peakystore.model.dtos.NotificationDTO;
-import com.tipeaky.peakystore.model.dtos.AddressDTO;
-import com.tipeaky.peakystore.model.dtos.UserDTO;
 import com.tipeaky.peakystore.model.entities.Card;
 import com.tipeaky.peakystore.model.entities.Address;
 import com.tipeaky.peakystore.model.entities.Role;
 import com.tipeaky.peakystore.model.entities.User;
+import com.tipeaky.peakystore.model.enums.GenderEnum;
 import com.tipeaky.peakystore.model.forms.*;
 import com.tipeaky.peakystore.repositories.AddressRepository;
 import com.tipeaky.peakystore.repositories.UserRepository;
@@ -217,7 +215,7 @@ public class UserService {
         userRepository.save(actualData);
     }
 
-    public List<UserDTO> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
 
         List<User> users = userRepository.findAll();
         List<User> employees = new ArrayList<>();
@@ -235,7 +233,15 @@ public class UserService {
         if (employees.isEmpty()) {
             throw new EntityNotFoundException("Não há funcionários cadastrados");
         }
+        
+        List<EmployeeDTO> employeeDTOList = employees.stream().map(employee -> mapper.map(employee, EmployeeDTO.class)).toList();
 
-        return employees.stream().map(employee -> mapper.map(employee, UserDTO.class)).toList();
+        for (EmployeeDTO employee :
+                employeeDTOList) {
+            GenderEnum gender = employee.getGender();
+            employee.setGenderDescription(gender.getDescription());
+        }
+
+        return employeeDTOList;
     }
 }
