@@ -34,6 +34,11 @@ public class ProductService {
         return mapper.map(product.get(), ProductDTO.class);
     }
 
+    public ProductDTO getProductBySku(String sku) {
+        Optional<Product> optionalProduct = productRepository.findBySku(sku);
+        if(optionalProduct.isEmpty()) throw new EntityNotFoundException("Produto não encontrado");
+        return mapper.map(optionalProduct.get(), ProductDTO.class);
+    }
     public ResponseEntity<String> deleteProduct(UUID id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isEmpty() || product.get().getIsExcluded()) {

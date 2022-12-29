@@ -31,6 +31,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProduct(id));
     }
 
+    @GetMapping("/sku/{sku}")
+    public ResponseEntity<ProductDTO> getProductBySku(@PathVariable String sku) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductBySku(sku));
+    }
+
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
