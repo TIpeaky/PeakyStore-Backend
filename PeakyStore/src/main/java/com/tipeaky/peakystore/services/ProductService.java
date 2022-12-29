@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,8 +88,28 @@ public class ProductService {
 
         GenericSpecificationsBuilder<Product> builder = new GenericSpecificationsBuilder<>();
 
+        ColorEnum white = ColorEnum.WHITE;
+        ColorEnum black = ColorEnum.BLACK;
+        ColorEnum blue = ColorEnum.BLUE;
+        ColorEnum green = ColorEnum.GREEN;
+        ColorEnum purple = ColorEnum.PURPLE;
+
+        ArrayList arrayListCores = new ArrayList<>();
+
+        arrayListCores.add(white);
+        arrayListCores.add(black);
+        arrayListCores.add(blue);
+        arrayListCores.add(green);
+        arrayListCores.add(purple);
+
+        System.out.println("Cores: " + arrayListCores);
+
+        builder.with(productSpecificationFactory.isEqual("color", arrayListCores.get(0)).
+                or(productSpecificationFactory.isEqual("color", arrayListCores.get(3))));
+
         if(Objects.nonNull(color)) {
-            builder.with(productSpecificationFactory.isEqual("color", color));
+            builder.with(productSpecificationFactory.isEqual("color", arrayListCores.get(0)).
+                    or(productSpecificationFactory.isEqual("color", arrayListCores.get(3))));
         }
 
         if(Objects.nonNull(productBrand)) {
