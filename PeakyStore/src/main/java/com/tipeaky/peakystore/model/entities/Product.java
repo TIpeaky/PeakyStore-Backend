@@ -12,9 +12,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -57,6 +55,12 @@ public class Product {
 
     @Column(nullable = false)
     private Boolean isExcluded = false;
+
+    @Column(nullable = false)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private List<ProductImage> imagens = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "product")
     private Set<Avaliation> avaliations = new HashSet<>();

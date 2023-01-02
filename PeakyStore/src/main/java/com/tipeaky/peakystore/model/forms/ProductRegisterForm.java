@@ -1,17 +1,18 @@
 package com.tipeaky.peakystore.model.forms;
 
+import com.tipeaky.peakystore.model.entities.ProductImage;
 import com.tipeaky.peakystore.model.enums.CategoryEnum;
 import com.tipeaky.peakystore.model.enums.ColorEnum;
 import com.tipeaky.peakystore.model.enums.SectionEnum;
 import com.tipeaky.peakystore.model.enums.SizeEnum;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,5 +38,7 @@ public class ProductRegisterForm {
     private CategoryEnum category;
     @NotNull
     private SectionEnum section;
+    @NotEmpty
+    private MultipartFile[] images;
 
 }

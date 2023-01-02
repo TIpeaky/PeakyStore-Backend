@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
@@ -62,5 +63,11 @@ public class GlobalExceptions {
     public ResponseEntity<StandardError> SQLIntegrityConstraintViolationExceptionHandlerMethod(SQLIntegrityConstraintViolationException e, HttpServletRequest request) {
         StandardError se = new StandardError(LocalDateTime.now(), 500, "Internal Server Error", e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(se);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<StandardError> handleMaxSizeException(MaxUploadSizeExceededException e, HttpServletRequest request){
+        StandardError se = new StandardError(LocalDateTime.now(), 400, "Bad Request", e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(se);
     }
 }
